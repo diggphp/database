@@ -6,6 +6,7 @@ namespace DiggPHP\Database;
 
 use Composer\InstalledVersions;
 use Medoo\Medoo;
+use ReflectionClass;
 
 /**
  * @method false|\PDOStatement query($query, $map = [])
@@ -43,7 +44,7 @@ class Db
     {
         if (is_null($config)) {
             if (class_exists(InstalledVersions::class)) {
-                $config_file = InstalledVersions::getRootPackage()['install_path'] . '/config/database.php';
+                $config_file = dirname(dirname(dirname((new ReflectionClass(InstalledVersions::class))->getFileName()))) . '/config/database.php';
                 if (file_exists($config_file)) {
                     $this->loadConfig(self::includeFile($config_file));
                 }
